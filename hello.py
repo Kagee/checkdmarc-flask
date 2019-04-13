@@ -33,7 +33,7 @@ def lookup_async(domain):
                        ttl=60,          # discard job if not started within 1 min (60s)
                        job_timeout=30   # fail job if it takes more than 30s
                        )
-    return jsonify({"enqueued": domain, "result": result}), 200
+    return jsonify({"enqueued": domain, "result": str(result)}), 200
 
 
 @app.route('/lookup/<domain>')
