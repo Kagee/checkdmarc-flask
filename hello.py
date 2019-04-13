@@ -1,11 +1,10 @@
 from flask import Flask
 from flask import jsonify
-from flask import request
-import checkdmarc
-import os
-import uuid
 
-import socket  # gethostbyname
+import checkdmarc
+
+import os
+
 from collections import OrderedDict
 
 app = Flask(__name__)
@@ -23,11 +22,6 @@ def index():
 @app.route('/lookup/async/<domain>')
 def lookup_async(domain):
     return jsonify({"error": "not implemented - " + domain}), 500
-    #if not domain:
-    #    domain = request.args.get("domain")
-    #if domain:
-    #    return full_check(domain)
-    #return jsonify({"error": "missing argument: domain"}), 400
 
 
 @app.route('/lookup/<domain>')
@@ -48,3 +42,7 @@ def full_check(domain, skip_tls=True):
     output.update(res)
 
     return jsonify(output), 200
+
+
+if __name__ == '__main__':
+    app.run()
