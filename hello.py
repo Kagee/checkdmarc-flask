@@ -22,7 +22,18 @@ def index():
 
 @app.route('/lookup/async/<domain>')
 def lookup_async(domain):
-    return jsonify({"error": "not implemented - " + domain}), 500
+    import redis
+    from rq import Queue
+
+    r = redis.from_url(os.environ.get("REDIS_URL"))
+    q = Queue('lookups', connection=r)
+    result = q.enqueue(full_check,
+                       result_ttl=300,  # keep results for 5 minutes (300s)
+                       failure_ttl=0,   # delete failed jobs
+                       ttl=60,          # discard job if not started within 1 min (60s)
+                       job_timeout=30   # fail job if it takes more than 30s
+                       )
+    return jsonify({"enqueued": domain, "result": result}), 200
 
 
 @app.route('/lookup/<domain>')
