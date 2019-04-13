@@ -10,7 +10,8 @@ from collections import OrderedDict
 app = Flask(__name__)
 
 app.config['DEV'] = os.getenv('FLASK_ENV', 'production') == 'development'
-
+# We want human-readable JSON
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.route('/')
 def index():
