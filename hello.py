@@ -39,7 +39,8 @@ def lookup_async(domain):
 @app.route('/lookup/<domain>')
 def lookup(domain):
     if domain and "." in domain:
-        return full_check(domain)
+        res = full_check(domain)
+        return jsonify(res[0]), res[1]
     return jsonify({"error": "missing or invalid argument: /lookup/<domain>"}), 400
 
 
@@ -53,7 +54,7 @@ def full_check(domain, skip_tls=True):
     # We do this to make sure "about" is put first in the merged ordered dict
     output.update(res)
 
-    return jsonify(output), 200
+    return output, 200
 
 
 if __name__ == '__main__':
