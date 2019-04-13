@@ -27,7 +27,7 @@ def lookup_async(domain):
 
     r = redis.from_url(os.environ.get("REDIS_URL"))
     q = Queue('lookups', connection=r)
-    result = q.enqueue(full_check,
+    result = q.enqueue(full_check, domain,
                        result_ttl=300,  # keep results for 5 minutes (300s)
                        failure_ttl=0,   # delete failed jobs
                        ttl=60,          # discard job if not started within 1 min (60s)
