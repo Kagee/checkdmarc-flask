@@ -33,7 +33,25 @@ def lookup_async(domain):
                        ttl=60,          # discard job if not started within 1 min (60s)
                        job_timeout=30   # fail job if it takes more than 30s
                        )
-    return jsonify({"enqueued": domain, "result": str(result)}), 200
+    job_id = result.key.decode("utf-8")
+    return jsonify({
+                    "enqueued": domain,
+                    "job_id": job_id,
+                    "url": '/lookup/job/' + job_id
+                    }), 200
+
+
+@app.route('/lookup/job/<job_id>')
+def lookup_job(job_id):
+    import redis
+    from rq.job import Job
+
+    r = redis.from_url(os.environ.get("REDIS_URL"))
+    job = Job.fetch(job_id[7:], connection=r)
+    return jsonify({"job_id": job_id,
+                    # "status": job.status,
+                    "dir": dir(job)
+                    }), 200
 
 
 @app.route('/lookup/<domain>')
@@ -46,6 +64,8 @@ def lookup(domain):
 
 # We want to skip tls check (port 25 etc traffic) by default when running on Heroku
 def full_check(domain, skip_tls=True):
+    import time
+    time.sleep(10)
     res = checkdmarc.check_domains([domain], skip_tls=skip_tls)
 
     output = OrderedDict()
