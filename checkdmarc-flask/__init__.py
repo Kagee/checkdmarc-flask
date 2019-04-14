@@ -5,7 +5,8 @@ from flask import send_from_directory
 
 # for reading environment variables and creating paths
 import os
-from .utils import full_check
+
+from .utils import full_check, force_iso_tz
 
 
 def create_app():
@@ -66,11 +67,16 @@ def create_app():
                             "job_id": job_id
                             }), 404
         # print(dir(job))
+        if job.is_finished:
+            job.result['_async_job_data'] = \
+                {
+                 'started_at': utils.force_iso_tz(job.started_at),
+                 'ended_at': force_iso_tz(job.ended_at)
+                }
+            return jsonify(job.result), 200
+
         return jsonify({"job_id": job_id,
-                        "status": job.get_status(),
-                        "failed": str(job.is_failed),
-                        "finished": str(job.is_finished),
-                        "result": job.result,
+                        "status": job.get_status()
                         }), 200
 
     @app.route('/lookup/<domain>')
