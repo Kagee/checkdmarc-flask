@@ -49,9 +49,17 @@ def lookup_async(domain):
 def lookup_job(job_id):
     import redis
     from rq.job import Job
+    from rq.exceptions import NoSuchJobError
 
     r = redis.from_url(os.environ.get("REDIS_URL"))
-    job = Job.fetch(job_id[7:], connection=r)
+    try:
+        job = Job.fetch(job_id[7:], connection=r)
+    except NoSuchJobError:
+        return jsonify({
+                        "error": "NoSuchJobError",
+                        "msg": "Job does not exist. It may have expired (5 minutes) or never existed",
+                        "job_id": job_id
+                        }), 404
     return jsonify({"job_id": job_id,
                     # "status": job.status,
                     "dir": dir(job)
