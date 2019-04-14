@@ -1,0 +1,20 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target,unbound.service,redis-server.service
+Before=nginx.service
+
+[Service]
+PIDFile=/run/gunicorn/pid
+User=hildenae
+Group=hildenae
+RuntimeDirectory=gunicorn
+WorkingDirectory=/home/hildenae/bin/checkdmarc-flask
+EnvironmentFile=/home/hildenae/bin/checkdmarc-flask/systemd/gunicorn.env
+ExecStart=/bin/bash -c 'source ./venv/bin/activate; exec gunicorn --reload --pid /run/gunicorn/pid --bind unix:/run/gunicorn/socket "checkdmarc-flask:create_app()"'
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

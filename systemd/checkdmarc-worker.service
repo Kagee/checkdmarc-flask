@@ -1,0 +1,15 @@
+[Unit]
+Description=checkdmarc-worker gunicorn daemon
+After=redis-server.service,gunicorn.service
+
+[Service]
+Type=simple
+User=hildenae
+Group=hildenae
+WorkingDirectory=/home/hildenae/bin/checkdmarc-flask
+EnvironmentFile=/home/hildenae/bin/checkdmarc-flask/systemd/gunicorn.env
+ExecStart=/bin/bash -c 'source ./venv/bin/activate; exec python3 worker.py;'
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
