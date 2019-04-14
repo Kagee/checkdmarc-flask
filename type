@@ -1,2 +1,2 @@
 #! /bin/bash
-heroku ps:type web=$1 worker=$1
+heroku ps:type web=$1 #worker=$1
