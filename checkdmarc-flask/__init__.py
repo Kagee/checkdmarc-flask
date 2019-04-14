@@ -82,6 +82,7 @@ def create_app():
 
     @app.route('/favicon.ico')
     def favicon():
+        # TODO: Find out why this is not cached by chrome (, cache_timeout=3600)
         return send_from_directory(os.path.join(app.root_path, 'static'),
                                    'favicon.ico', mimetype='image/vnd.microsoft.icon')
     return app
