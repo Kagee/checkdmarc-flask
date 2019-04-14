@@ -1,7 +1,17 @@
 <!doctype html>
 <title>epost.sikkerserver.no - Check DMARC and SPF using checkdmarc</title>
 <p>
-<h2>Test links</h2>
+<h2>Example tests</h2>
+<p>
+<div>
+<div style="display: inline-block; text-align: center">
+    <input id="domain" type="text" value="dmarc.no" onclick="if(this.value=='dmarc.no'){this.value=''};" size="30" style="margin-bottom: 2px"><br />
+    <button style="width: 49%" id="check" onclick="if(document.getElementById('domain').value!=''){ window.location.href='/lookup/async/'+document.getElementById('domain').value};">Asynchronous</button>
+    <button style="width: 49%" id="check" onclick="if(document.getElementById('domain').value!=''){ window.location.href='/lookup/'+document.getElementById('domain').value};">Synchronous</button>
+</div>
+</div>
+</p>
+
 <table>
 <tr><th>Asynchronous</th><th>Synchronous (slow)</th></tr>
     {% for example_domain in example_domains %}
