@@ -14,11 +14,14 @@ app.config['DEV'] = os.getenv('FLASK_ENV', 'production') == 'development'
 # We want human-readable JSON
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
-@app.route('/')
-def index():
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
     return '<a href="/lookup/kripos.no">Test kripos.no</a><br />'\
            '<a href="/lookup/async/kripos.no">Test kripos.no async</a><br />'\
-           'Development: ' + str(app.config['DEV'])
+           'Development: ' + str(app.config['DEV']) + "<br />"\
+           'Path: ' + path
 
 
 @app.route('/lookup/async/<domain>')
