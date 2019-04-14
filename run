@@ -1,2 +1,2 @@
 #! /bin/bash
-FLASK_APP=hello.py FLASK_ENV=development REDIS_URL=redis://localhost/ flask run
+FLASK_APP=app FLASK_ENV=development REDIS_URL=redis://localhost/ flask run
