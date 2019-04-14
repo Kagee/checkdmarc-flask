@@ -1,4 +1,4 @@
 #! /bin/bash
 # FLASK_APP=checkdmarc-flask FLASK_ENV=development REDIS_URL=redis://localhost/ flask run
 # We run in gunicorn so we can use signals
-FLASK_APP=checkdmarc-flask FLASK_ENV=development REDIS_URL=redis://localhost/ gunicorn --reload 'checkdmarc-flask:create_app()'
+NAMESERVERS=127.0.0.1,127.0.0.5 FLASK_APP=checkdmarc-flask FLASK_ENV=development REDIS_URL=redis://localhost/ gunicorn --reload 'checkdmarc-flask:create_app()'

@@ -2,7 +2,7 @@ import checkdmarc
 from collections import OrderedDict
 
 import signal
-
+import os
 # for modifying datetime timezones
 from datetime import timezone, timedelta
 
@@ -10,13 +10,16 @@ from datetime import timezone, timedelta
 # We want to skip tls check (port 25 etc traffic) by default when running on Heroku
 def full_check(domain, skip_tls=True, timeout=None):
     res = None
-
+    nameservers=os.getenv('NAMESERVERS', None)
+    if nameservers:
+        nameservers = nameservers.split(",")
     if timeout:
         def raise_TimedOutExc(a, b):
             raise TimedOutExc(f"checkdmarc used more than predefined timeout ({timeout} seconds)")
         signal.signal(signal.SIGALRM, raise_TimedOutExc)
         signal.alarm(timeout)
-        res = checkdmarc.check_domains([domain], skip_tls=skip_tls)
+
+        res = checkdmarc.check_domains([domain], skip_tls=skip_tls, nameservers=nameservers)
         signal.alarm(0)
     else:
         res = checkdmarc.check_domains([domain], skip_tls=skip_tls)
