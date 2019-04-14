@@ -7,6 +7,7 @@ from flask import send_from_directory
 import os
 
 from .utils import full_check, force_iso_tz
+from datetime import datetime
 
 
 def create_app():
@@ -26,7 +27,8 @@ def create_app():
                             "elkjøp.no",
                             "øl.no"
                           ]
-        return render_template('index.html', example_domains=example_domains)
+        debug_info = {"path": path}
+        return render_template('index.html', example_domains=example_domains, debug_info=debug_info)
 
     @app.route('/lookup/async/<domain>')
     def lookup_async(domain):
@@ -68,7 +70,7 @@ def create_app():
                             }), 404
         # print(dir(job))
         if job.is_finished:
-            job.result['_async_job_data'] = \
+            job.result['_lookup_data'] = \
                 {
                  'started_at': utils.force_iso_tz(job.started_at),
                  'ended_at': force_iso_tz(job.ended_at)
@@ -87,7 +89,14 @@ def create_app():
                             "error": "MissingOrInvalidDomain",
                             "msg": "A valid domain must be specified: /lookup/<domain>"
                             }), 400
+        started_at = datetime.utcnow()
         result = full_check(domain)
+        ended_at = datetime.utcnow()
+        result['_lookup_data'] = \
+            {
+                'started_at': utils.force_iso_tz(started_at),
+                'ended_at': force_iso_tz(ended_at)
+            }
         # print(result)
         return jsonify(result), 200
 
