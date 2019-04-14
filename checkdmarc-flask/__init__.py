@@ -32,7 +32,9 @@ def create_app():
 
         r = redis.from_url(os.environ.get("REDIS_URL"))
         q = Queue('lookups', connection=r)
+        # TODO: Could we use Job.requeue if job has been run before?
         result = q.enqueue(full_check, domain,
+                           job_id=domain,
                            result_ttl=300,  # keep results for 5 minutes (300s)
                            failure_ttl=300,   # delete failed jobs
                            ttl=60,          # discard job if not started within 1 min (60s)
