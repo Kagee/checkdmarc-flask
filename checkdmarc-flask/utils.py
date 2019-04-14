@@ -19,4 +19,8 @@ def full_check(domain, skip_tls=True):
 
 
 def force_iso_tz(timestamp):
+    if timestamp.tzinfo:
+        return timestamp
+    # Set a timezone offset of 0 to force printing timezone even if GMT
     return timestamp.replace(microsecond=0).replace(tzinfo=timezone(timedelta(0))).isoformat()
+
