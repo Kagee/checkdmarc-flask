@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import jsonify
+from flask import send_from_directory
 
 import checkdmarc
 
@@ -60,6 +61,12 @@ def lookup(domain):
         res = full_check(domain)
         return jsonify(res[0]), res[1]
     return jsonify({"error": "missing or invalid argument: /lookup/<domain>"}), 400
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 # We want to skip tls check (port 25 etc traffic) by default when running on Heroku
