@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import jsonify
+from flask import render_template
 from flask import send_from_directory
 import os
 from .utils import full_check
@@ -16,10 +17,13 @@ def create_app():
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
     def index(path):
-        return '<a href="/lookup/kripos.no">Test kripos.no</a><br />'\
-               '<a href="/lookup/async/kripos.no">Test kripos.no async</a><br />'\
-               'Development: ' + str(app.config['DEV']) + "<br />"\
-               'Path: ' + path
+        example_domains = [
+                            "nrk.no",
+                            "kripos.no",
+                            "elkjøp.no",
+                            "øl.no"
+                          ]
+        return render_template('index.html', example_domains=example_domains)
 
     @app.route('/lookup/async/<domain>')
     def lookup_async(domain):

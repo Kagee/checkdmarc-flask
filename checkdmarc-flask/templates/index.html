@@ -1,0 +1,20 @@
+<!doctype html>
+<title>epost.sikkerserver.no - Check DMARC and SPF using checkdmarc</title>
+<p>
+<h2>Test links</h2>
+<table>
+<tr><th>Asynchronous</th><th>Synchronous (slow)</th></tr>
+    {% for example_domain in example_domains %}
+<tr>
+    <td><a href="/lookup/async/{{ example_domain }}">{{ example_domain }}</a></td>
+    <td><a href="/lookup/{{ example_domain }}">{{ example_domain }}</a></td>
+</tr>
+{% endfor %}
+</table>
+</p>
+<p>
+    <h2>Resources</h2>
+<ul><li>
+<a href="https://seanthegeek.net/459/demystifying-dmarc/">https://seanthegeek.net/459/demystifying-dmarc/</a> - A complete guide to SPF, DKIM, and DMARC
+    </li></ul>
+    </p>
