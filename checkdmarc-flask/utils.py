@@ -22,10 +22,12 @@ def full_check(domain, skip_tls=True, timeout=None):
         res = checkdmarc.check_domains([domain], skip_tls=skip_tls, nameservers=nameservers)
         signal.alarm(0)
     else:
-        res = checkdmarc.check_domains([domain], skip_tls=skip_tls)
+        res = checkdmarc.check_domains([domain], skip_tls=skip_tls, nameservers=nameservers)
     output = OrderedDict()
     output['_about'] = "For questions: mailto:hildenae+dmarc@gmail.com. Data produced "\
                       "using https://domainaware.github.io/checkdmarc/index.html"
+    output['_version'] = f"checkdmarc {checkdmarc.__version__} (from pip)"
+    output['_nameservers'] = f"{nameservers}"
     # We do this to make sure "about" is put first in the merged ordered dict
     output.update(res)
 
