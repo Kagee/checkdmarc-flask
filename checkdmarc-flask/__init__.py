@@ -5,8 +5,9 @@ from flask import send_from_directory
 
 # for reading environment variables and creating paths
 import os
+import signal
 
-from .utils import full_check, force_iso_tz
+from .utils import full_check, force_iso_tz, TimedOutExc
 from datetime import datetime
 
 
@@ -90,7 +91,15 @@ def create_app():
                             "msg": "A valid domain must be specified: /lookup/<domain>"
                             }), 400
         started_at = datetime.utcnow()
-        result = full_check(domain)
+
+        result = None
+        try:
+            result = full_check(domain, timeout=25)
+        except TimedOutExc as toe:
+            return jsonify({
+                            "error": "TimedOutExc",
+                            "msg": str(toe),
+                            }), 500
         ended_at = datetime.utcnow()
         result['_lookup_data'] = \
             {
@@ -105,4 +114,10 @@ def create_app():
         # TODO: Find out why this is not cached by chrome (, cache_timeout=3600)
         return send_from_directory(os.path.join(app.root_path, 'static'),
                                    'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+    # Activate debug for gunicorn
+    if app.debug:
+        from werkzeug.debug import DebuggedApplication
+        app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
+
     return app
