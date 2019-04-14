@@ -1,6 +1,9 @@
 import checkdmarc
 from collections import OrderedDict
 
+# for parsing rq's non-iso dates
+from datetime import timezone, timedelta
+
 
 # We want to skip tls check (port 25 etc traffic) by default when running on Heroku
 def full_check(domain, skip_tls=True):
@@ -13,3 +16,7 @@ def full_check(domain, skip_tls=True):
     output.update(res)
 
     return output
+
+
+def force_iso_tz(timestamp):
+    return timestamp.replace(microsecond=0).replace(tzinfo=timezone(timedelta(0))).isoformat()
