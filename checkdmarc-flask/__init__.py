@@ -82,8 +82,6 @@ def favicon():
 
 # We want to skip tls check (port 25 etc traffic) by default when running on Heroku
 def full_check(domain, skip_tls=True):
-    import time
-    time.sleep(10)
     res = checkdmarc.check_domains([domain], skip_tls=skip_tls)
 
     output = OrderedDict()
