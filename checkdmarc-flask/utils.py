@@ -27,7 +27,7 @@ def full_check(domain, skip_tls=True, timeout=None):
     output['_about'] = "For questions: mailto:hildenae+dmarc@gmail.com. Data produced "\
                       "using https://domainaware.github.io/checkdmarc/index.html"
     output['_version'] = f"checkdmarc {checkdmarc.__version__} (from pip)"
-    output['_nameservers'] = f"{nameservers}"
+    output['_nameservers'] = nameservers
     # We do this to make sure "about" is put first in the merged ordered dict
     output.update(res)
 
