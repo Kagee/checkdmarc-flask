@@ -2,6 +2,8 @@ from flask import Flask
 from flask import jsonify
 from flask import render_template
 from flask import send_from_directory
+
+# for reading environment variables and creating paths
 import os
 from .utils import full_check
 
@@ -57,6 +59,7 @@ def create_app():
         try:
             job = Job.fetch(job_id[7:], connection=r)
         except NoSuchJobError:
+            # TODO: Requeue job here
             return jsonify({
                             "error": "NoSuchJobError",
                             "msg": "Job does not exist. It may have expired (5 minutes) or never existed",
