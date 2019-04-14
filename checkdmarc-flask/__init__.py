@@ -67,11 +67,14 @@ def lookup_job(job_id):
 
 
 @app.route('/lookup/<domain>')
+@app.route('/lookup/', defaults={"domain": None})
 def lookup(domain):
-    if domain and "." in domain:
-        res = full_check(domain)
-        return jsonify(res[0]), res[1]
-    return jsonify({"error": "missing or invalid argument: /lookup/<domain>"}), 400
+    if not domain or "." not in domain:
+        return jsonify({
+                        "error": "MissingOrInvalidDomain",
+                        "msg": "A valid domain must be specified: /lookup/<domain>"
+                        }), 400
+    return jsonify(full_check(domain)), 200
 
 
 @app.route('/favicon.ico')
@@ -90,7 +93,9 @@ def full_check(domain, skip_tls=True):
     # We do this to make sure "about" is put first in the merged ordered dict
     output.update(res)
 
-    return output, 200
+    return output
+
+
 
 
 if __name__ == '__main__':
