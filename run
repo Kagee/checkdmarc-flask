@@ -1,4 +1,11 @@
 #! /bin/bash
 # FLASK_APP=checkdmarc-flask FLASK_ENV=development REDIS_URL=redis://localhost/ flask run
 # We run in gunicorn so we can use signals
-NAMESERVERS=127.0.0.1,127.0.0.5 FLASK_APP=checkdmarc-flask FLASK_ENV=development REDIS_URL=redis://localhost/ gunicorn --reload 'checkdmarc-flask:create_app()'
+
+(trap 'kill 0' SIGINT; REDIS_URL=redis://localhost/ python worker.py & \
+NAMESERVERS=$(cat /etc/resolv.conf | grep ^nameserver | cut -d ' ' -f 2 | paste -s -d,) \
+  FLASK_APP=checkdmarc-flask \
+  FLASK_ENV=development \
+  REDIS_URL=redis://localhost/ \
+  gunicorn --workers $(echo "(2*$(nproc --all))+1" | bc) --reload 'checkdmarc-flask:create_app()' \
+  )
