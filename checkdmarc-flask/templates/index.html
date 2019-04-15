@@ -11,15 +11,26 @@
 </div>
 </div>
 </p>
-
+<h3>Real domains for testing</h3>
 <table>
-<tr><th>Asynchronous</th><th>Synchronous (slow)</th></tr>
-    {% for example_domain in example_domains %}
-<tr>
-    <td><a href="/lookup/async/{{ example_domain }}">{{ example_domain }}</a></td>
-    <td><a href="/lookup/{{ example_domain }}">{{ example_domain }}</a></td>
-</tr>
-{% endfor %}
+    <tr><th>Asynchronous</th><th>Synchronous (slow)</th></tr>
+    {% for domain in example_domains %}
+    <tr>
+        <td><a href="/lookup/async/{{ domain }}">{{ domain }}</a></td>
+        <td><a href="/lookup/{{ domain }}">{{ domain }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>This-service-only test domains</h3>
+<table>
+    <tr><th>Asynchronous</th><th>Synchronous (slow)</th></tr>
+    {% for domain in test_domains %}
+    <tr>
+        <td><a href="/lookup/async/{{ domain }}">{{ domain }}</a></td>
+        <td><a href="/lookup/{{ domain }}">{{ domain }}</a></td>
+    </tr>
+    {% endfor %}
 </table>
 </p>
 <p>

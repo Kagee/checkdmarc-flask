@@ -13,6 +13,7 @@ from datetime import datetime
 
 def create_app():
     app = Flask(__name__)
+    app.config.from_pyfile('config/flask.cfg')
     app.config['DEV'] = os.getenv('FLASK_ENV', 'production') == 'development'
     # We want human-readable JSON
     app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -22,14 +23,15 @@ def create_app():
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
     def index(path):
-        example_domains = [
-                            "nrk.no",
-                            "kripos.no",
-                            "elkjøp.no",
-                            "øl.no"
-                          ]
+        example_domains = app.config['EXAMPLE_DOMAINS']
+        test_domains = app.config['TEST_DOMAINS']
         debug_info = {"path": path}
-        return render_template('index.html', example_domains=example_domains, debug_info=debug_info)
+        return render_template(
+                                'index.html',
+                                example_domains=example_domains,
+                                test_domains=test_domains,
+                                debug_info=debug_info
+                              )
 
     @app.route('/lookup/async/<domain>')
     def lookup_async(domain):
