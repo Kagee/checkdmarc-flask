@@ -1,0 +1,28 @@
+{% include 'header.html' %}
+
+    <form action="/lookup_async_html" method="get">
+        <div class="row">
+            <div class="offset-by-two four columns">
+                <input class="u-full-width" id="exampleEmailInput" name="domain" placeholder="sikkerserver.no"
+                       type="text" value="sikkerserver.no">
+
+            </div>
+            <div class="six columns">
+                <button class="button-primary" type="submit" style="font-size: 90%"><i class="fas fa-spinner fa-spin"></i>&nbsp;Checking&nbsp;domain&nbsp;</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="one-half column">
+            <h4><i class="fas fa-spinner fa-spin"></i>&nbsp;DMARC</h4>
+            <label for="dmr">DMARC Record</label>
+            <pre class="dns-record-pre" id="dmr">working ...</pre>
+        </div>
+        <div class="one-half column">
+            <h4><i class="fas fa-spinner fa-spin"></i>&nbsp;SPF</h4>
+            <label for="dmr">SPF Record</label>
+            <pre class="dns-record-pre" id="dmr">working ...</pre>
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}

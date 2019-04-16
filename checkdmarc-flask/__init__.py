@@ -112,12 +112,18 @@ def create_app():
         return jsonify(result), 200
 
 
-    @app.route('/static/lookup_async_html/landing')
-    def send_js(path):
-	return render_template('landing.html')
-
     @app.route('/static/lookup_async_html/<path:path>')
-    def send_js(path):
+    def serve_static(path):
+        templates = [
+            "landing.html",
+            "working.html",
+            "result-good.html",
+            "result-warn.html",
+            "result-error.html",
+            "result-fail.html",
+        ]
+        if path in templates:
+            return render_template(path)
         return send_from_directory('static/lookup_async_html', path)
 
     @app.route('/favicon.ico')

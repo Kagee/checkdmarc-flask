@@ -1,0 +1,74 @@
+{% include 'header.html' %}
+
+    <form action="/lookup_async_html" method="get">
+        <div class="row">
+            <div class="offset-by-two four columns">
+                <input class="u-full-width" id="exampleEmailInput" name="domain" placeholder="sikkerserver.no"
+                       type="text" value="sikkerserver.no">
+
+            </div>
+            <div class="six columns">
+                <button class="button-primary" type="submit" style="font-size: 90%"><i class="fas fa-search"></i>&nbsp;Check domain</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="one-half column">
+            <h4><i class="fas fa-minus-circle" style="color: orange"></i>&nbsp;DMARC</h4>
+            <label for="dmr">DMARC Record</label>
+            <pre class="dns-record-pre" id="dmr">v=DMARC1; p=none; fo=1; rua=mailto:dmarc_rua@kongsberg.com,&#8203;mailto:rangairabo@reports.dmarc.no;&#8203;ruf=mailto:dmarc_ruf@kongsberg.com,&#8203;mailto:rangairabo@reports.dmarc.no</pre>
+          <div class="row"> 
+            <div class="offset-by-one eleven columns">
+            <table class="u-full-width">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Warnings</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><i class="fas fa-minus-circle" style="color: orange; font-size: 200%"></td>
+                    <td>rua tag (destination for aggregate reports) not found</td>
+                </tr>
+
+                <tr>
+                    <td><i class="fas fa-minus-circle" style="color: orange; font-size: 200%"></td>
+                    <td>pct value is less than 100. This leads to inconsistent and unpredictable policy enforcement. Consider using p=none to monitor results instead</td>
+                </tr>
+                </tbody>
+            </table>
+            </div> <!-- end col-->
+          </div><!-- end row -->
+        </div>
+        <div class="one-half column">
+            <h4><i class="fas fa-minus-circle" style="color: orange"></i>&nbsp;SPF</h4>
+            <label for="dmr">SPF Record</label>
+            <pre class="dns-record-pre" id="dmr">v=spf1 ip4:157.237.3.102/32 ip4:157.237.3.104/32  ip4:194.19.112.152/32 ip4:193.71.180.4/32 ip4:193.71.180.5/32 ip4:193.71.180.7/32 ip4:193.71.180.8/32 ip4:193.71.180.9/32 a:mx1.km.kongsberg.com a:mx2.km.kongsberg.com a:kda-chqmg-01.kongsberg.com a:kda-chqmg-02.kongsberg.com a:kda-chqmg-03.kongsberg.com a:kda-chqmg-04.kongsberg.com a:kda-chqmgt.kongsberg.com -all</pre>
+          <div class="row"> 
+            <div class="offset-by-one eleven columns">
+            <table class="u-full-width">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Warnings</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><i class="fas fa-minus-circle" style="color: orange; font-size: 200%;"></td>
+                    <td><code>~all</code> means all unspecified host will return SOFTFAIL. Typically, messages that return a SOFTFAIL are accepted but tagged.</td>
+                </tr>
+
+                <tr>
+                    <td><i class="fas fa-minus-circle" style="color: orange; font-size: 200%;"></td>
+                    <td><code>?all</code> means all hosts will return NEUTRAL, the same as having no policy</td>
+                </tr>
+                </tbody>
+            </table>
+            </div> <!-- end col-->
+          </div><!-- end row -->
+        </div>
+      </div>
+
+{% include 'footer.html' %}
