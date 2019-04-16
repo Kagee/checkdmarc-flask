@@ -1,6 +1,6 @@
 {% include 'header.html' %}
 
-    <form action="/lookup_async_html" method="get">
+    <form action="result-fail.html" method="get">
         <div class="row">
             <div class="offset-by-two four columns">
                 <input class="u-full-width" id="exampleEmailInput" name="domain" placeholder="sikkerserver.no"
@@ -12,23 +12,12 @@
             </div>
         </div>
     </form>
-    <form action="/lookup_async_html" method="get">
-        <div class="row">
-            <div class="offset-by-two four columns">
-                <input class="u-full-width" id="exampleEmailInput" name="domain" placeholder="sikkerserver.no"
-                       type="text" value="sikkerserver.no">
 
-            </div>
-            <div class="six columns">
-                <button class="button-primary" type="submit" style="font-size: 90%"><i class="fas fa-spinner fa-spin"></i>&nbsp;Checking&nbsp;domain&nbsp;</button>
-            </div>
-        </div>
-    </form>
     <div class="row">
         <div class="one-half column">
-            <h4><i class="fas fa-minus-circle" style="color: orange"></i>&nbsp;DMARC</h4>
+            <h4><i class="fas fa-times-circle" style="color: red"></i>&nbsp;DMARC</h4>
             <label for="dmr">DMARC Record</label>
-            <pre class="dns-record-pre" id="dmr">v=DMARC1; p=none; fo=1; rua=mailto:dmarc_rua@kongsberg.com,&#8203;mailto:rangairabo@reports.dmarc.no;&#8203;ruf=mailto:dmarc_ruf@kongsberg.com,&#8203;mailto:rangairabo@reports.dmarc.no</pre>
+            <pre class="dns-record-pre" id="dmr">v=DMARC1; p=none; pct=100; rua=mailto:reports@dmarc.org; ruf=mailto:reports@dmarc.org</pre>
            <div class="row"> 
 	   <div class="offset-by-one eleven columns">
             <table class="u-full-width">
@@ -41,7 +30,7 @@
                 <tbody>
                 <tr>
                     <td><i class="fas fa-times-circle" style="color: red; font-size: 200%"></td>
-                    <td>reports.dmarc.no does not indicate that it accepts DMARC reports about kongsberg.com - Authorization record not found: kongsberg.com.&#8203;_report.&#8203;_dmarc.reports.dmarc.no IN TXT "v=DMARC1"</td>
+                    <td>valid.test does not indicate that it accepts DMARC reports about nonauth-rua.invalid.test - Authorization record not found: nonauth-rua.invalid.test.&#8203;_report.&#8203;_dmarc.valid.test IN TXT "v=DMARC1"</td>
                 </tr>
                 </tbody>
             </table>
@@ -70,7 +59,7 @@
         <div class="one-half column">
             <h4><i class="fas fa-times-circle" style="color: red"></i>&nbsp;SPF</h4>
             <label for="dmr">SPF Record</label>
-            <pre class="dns-record-pre" id="dmr">v=spf1 ip4:157.237.3.102/32 ip4:157.237.3.104/32  ip4:194.19.112.152/32 ip4:193.71.180.4/32 ip4:193.71.180.5/32 ip4:193.71.180.7/32 ip4:193.71.180.8/32 ip4:193.71.180.9/32 a:mx1.km.kongsberg.com a:mx2.km.kongsberg.com a:kda-chqmg-01.kongsberg.com a:kda-chqmg-02.kongsberg.com a:kda-chqmg-03.kongsberg.com a:kda-chqmg-04.kongsberg.com a:kda-chqmgt.kongsberg.com -all</pre>
+            <pre class="dns-record-pre" id="dmr">v=spf1 include:_spf.domeneshop.no include:_spf.google.com a mx -all</pre>
            <div class="row"> 
 	   <div class="offset-by-one eleven columns">
             <table class="u-full-width">
@@ -110,138 +99,5 @@
 </div><!-- end row -->
         </div>
     </div>
-    <div class="row">
-        <div class="one-half column">
-            <h4 style="display: block;"><i class="fas fa-spinner fa-spin"></i>&nbsp;DMARC</h4>
-            <p>DMARC</p>
-            <table class="u-full-width">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Sex</th>
-                    <th>Location</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Dave Gamache</td>
-                    <td>26</td>
-                    <td>Male</td>
-                    <td>San Francisco</td>
-                </tr>
-                <tr>
-                    <td>Dwayne Johnson</td>
-                    <td>42</td>
-                    <td>Male</td>
-                    <td>Hayward</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="one-half column">
-            <h4><i class="fas fa-check-circle" style="color: green"></i>&nbsp;SPF</h4>
-            <p>SPF</p>
-            <table class="u-full-width">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Sex</th>
-                    <th>Location</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Dave Gamache</td>
-                    <td>26</td>
-                    <td>Male</td>
-                    <td>San Francisco</td>
-                </tr>
-                <tr>
-                    <td>Dwayne Johnson</td>
-                    <td>42</td>
-                    <td>Male</td>
-                    <td>Hayward</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-      <div class="row">
-        <div class="u-full-width column">
-            <h4><i class="fas fa-minus-circle" style="color: orange"></i>&nbsp;DMARC</h4>
-            <label for="dmr">DMARC Record</label>
-            <pre class="dns-record-pre" id="dmr">v=DMARC1; p=none; fo=1; rua=mailto:dmarc_rua@kongsberg.com,&#8203;mailto:rangairabo@reports.dmarc.no;&#8203;ruf=mailto:dmarc_ruf@kongsberg.com,&#8203;mailto:rangairabo@reports.dmarc.no</pre>
-
-	   <table class="u-full-width">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Errors</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><i class="fas fa-times-circle" style="color: red; font-size: 200%"></td>
-                    <td>reports.dmarc.no does not indicate that it accepts DMARC reports about kongsberg.com - Authorization record not found: kongsberg.com.&#8203;_report.&#8203;_dmarc.reports.dmarc.no IN TXT "v=DMARC1"</td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="u-full-width">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Warnings</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><i class="fas fa-minus-circle" style="color: orange; font-size: 200%"></td>
-                    <td>rua tag (destination for aggregate reports) not found</td>
-                </tr>
-
-                <tr>
-                    <td><i class="fas fa-minus-circle" style="color: orange; font-size: 200%"></td>
-                    <td>pct value is less than 100. This leads to inconsistent and unpredictable policy enforcement. Consider using p=none to monitor results instead</td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="u-full-width column">
-            <h4><i class="fas fa-times-circle" style="color: red"></i>&nbsp;SPF</h4>
-            <label for="dmr">SPF Record</label>
-            <pre class="dns-record-pre" id="dmr">v=spf1 ip4:157.237.3.102/32 ip4:157.237.3.104/32  ip4:194.19.112.152/32 ip4:193.71.180.4/32 ip4:193.71.180.5/32 ip4:193.71.180.7/32 ip4:193.71.180.8/32 ip4:193.71.180.9/32 a:mx1.km.kongsberg.com a:mx2.km.kongsberg.com a:kda-chqmg-01.kongsberg.com a:kda-chqmg-02.kongsberg.com a:kda-chqmg-03.kongsberg.com a:kda-chqmg-04.kongsberg.com a:kda-chqmgt.kongsberg.com -all</pre>
-            <table class="u-full-width">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Sex</th>
-                    <th>Location</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Dave Gamache</td>
-                    <td>26</td>
-                    <td>Male</td>
-                    <td>San Francisco</td>
-                </tr>
-                <tr>
-                    <td>Dwayne Johnson</td>
-                    <td>42</td>
-                    <td>Male</td>
-                    <td>Hayward</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 {% include 'footer.html' %}

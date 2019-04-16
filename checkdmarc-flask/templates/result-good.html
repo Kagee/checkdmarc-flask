@@ -1,6 +1,6 @@
 {% include 'header.html' %}
 
-    <form action="/lookup_async_html" method="get">
+    <form action="result-warn.html" method="get">
         <div class="row">
             <div class="offset-by-two four columns">
                 <input class="u-full-width" id="exampleEmailInput" name="domain" placeholder="sikkerserver.no"
@@ -16,13 +16,13 @@
         <div class="one-half column">
             <h4><i class="fas fa-check-circle" style="color:green;"></i>&nbsp;DMARC</h4>
             <label for="dmr">DMARC Record</label>
-            <pre class="dns-record-pre" id="dmr">v=DMARC1; p=none; fo=1; rua=mailto:dmarc_rua@kongsberg.com,&#8203;mailto:rangairabo@reports.dmarc.no;&#8203;ruf=mailto:dmarc_ruf@kongsberg.com,&#8203;mailto:rangairabo@reports.dmarc.no</pre><br />
+            <pre class="dns-record-pre" id="dmr">v=DMARC1; p=none; pct=100; rua=mailto:reports@dmarc.org; ruf=mailto:reports@dmarc.org</pre><br />
             <p>Todo: Add flovourtext</p>
         </div>
         <div class="one-half column">
             <h4><i class="fas fa-check-circle" style="color: green"></i>&nbsp;SPF</h4>
             <label for="dmr">SPF Record</label>
-            <pre class="dns-record-pre" id="dmr">v=spf1 ip4:157.237.3.102/32 ip4:157.237.3.104/32  ip4:194.19.112.152/32 ip4:193.71.180.4/32 ip4:193.71.180.5/32 ip4:193.71.180.7/32 ip4:193.71.180.8/32 ip4:193.71.180.9/32 a:mx1.km.kongsberg.com a:mx2.km.kongsberg.com a:kda-chqmg-01.kongsberg.com a:kda-chqmg-02.kongsberg.com a:kda-chqmg-03.kongsberg.com a:kda-chqmg-04.kongsberg.com a:kda-chqmgt.kongsberg.com -all</pre><br />
+            <pre class="dns-record-pre" id="dmr">v=spf1 include:_spf.domeneshop.no include:_spf.google.com a mx -all</pre><br />
              <p>Todo: Add flovourtext</p>
         </div>
     </div>

@@ -121,6 +121,7 @@ def create_app():
             "result-warn.html",
             "result-error.html",
             "result-fail.html",
+            "result-nxdomain.html",
         ]
         if path in templates:
             return render_template(path)
