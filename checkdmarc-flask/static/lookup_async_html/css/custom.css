@@ -1,0 +1,15 @@
+.ignore-css {
+    all:unset;
+}
+
+.dns-record-pre {
+    all:unset;
+    display: block;
+    word-wrap: break-word;
+    color: black;
+    border: 1px solid #E1E1E1;
+    background: #F1F1F1;
+    white-space: normal;
+    border-radius: 4px;
+    padding: 2px 4px 2px 4px;
+}
