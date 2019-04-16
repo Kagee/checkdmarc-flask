@@ -111,6 +111,11 @@ def create_app():
         # print(result)
         return jsonify(result), 200
 
+
+    @app.route('/static/lookup_async_html/landing')
+    def send_js(path):
+	return render_template('landing.html')
+
     @app.route('/static/lookup_async_html/<path:path>')
     def send_js(path):
         return send_from_directory('static/lookup_async_html', path)
