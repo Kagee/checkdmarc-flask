@@ -111,6 +111,10 @@ def create_app():
         # print(result)
         return jsonify(result), 200
 
+    @app.route('/static/lookup_async_html/<path:path>')
+    def send_js(path):
+        return send_from_directory('static/lookup_async_html', path)
+
     @app.route('/favicon.ico')
     def favicon():
         # TODO: Find out why this is not cached by chrome (, cache_timeout=3600)
