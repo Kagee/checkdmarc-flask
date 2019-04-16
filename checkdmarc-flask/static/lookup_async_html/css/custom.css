@@ -53,7 +53,8 @@
 89% { content: "3"; }
 93% { content: "2"; }
 96% { content: "1"; }
-100% { content: "0"; }
+99% { content: "0"; }
+100% { content: ""; }
 }
 
 .count-down {
@@ -71,6 +72,6 @@
   animation-timing-function: linear;
   /*  animation: changeLetter 30s linear alternate; */
     /* display: block; */
-   content: "0";
+   content: "";
     /* font-size: 80px; */
 }
