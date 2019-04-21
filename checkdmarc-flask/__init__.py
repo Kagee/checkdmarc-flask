@@ -156,6 +156,10 @@ def create_app():
         return send_from_directory(os.path.join(app.root_path, 'static'),
                                    'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+    @app.route('/.well-known/<path:filename>')
+    def well_known(filename):
+        return send_from_directory(app.static_folder + '/well-known/', filename)
+
     # Activate debug for gunicorn
     if app.debug:
         from werkzeug.debug import DebuggedApplication

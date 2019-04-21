@@ -1,0 +1,4 @@
+Contact: mailto:hildenae@gmail.com
+Encryption: https://sjekk.email/.well-known/hildenae@gmail.com.asc
+Preferred-Languages: nb,no,en
+Canonical: https://sjekk.email/.well-known/security.txt
