@@ -16,15 +16,16 @@
     <!-- FONT
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <!-- <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css"> -->
-    <link href="raleway/raleway.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='raleway/raleway.css') }}" rel="stylesheet">
 
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="css/normalize.css" rel="stylesheet">
-    <link href="css/skeleton.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/normalize.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/skeleton.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
     <!--load font awesome css and font-->
-    <link href="fontawesome-free/css/all.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='fontawesome-free/css/all.css') }}" rel="stylesheet">
     <!-- Favicon
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link href="images/favicon.png" rel="icon" type="image/png">
