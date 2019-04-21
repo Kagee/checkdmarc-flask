@@ -1,5 +1,8 @@
+{% with %}
+  {% set extra_head = "<meta http-equiv=\"refresh\" content=\"5;url=https://sjekk.email/" ~ request.full_path ~ "\" />" %}
+{% endwith %}
+<!-- {{ request.full_path }} {{ request.path }} {{ request.url }} {{ request.full_path }} -->
 {% include 'header.html' %}
-
     <form action="result-good.html" method="get">
         <div class="row">
             <div class="offset-by-two four columns">
