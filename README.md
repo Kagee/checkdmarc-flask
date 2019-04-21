@@ -1,6 +1,8 @@
 #### About:
 * TODO: Add about
 
+##### Logo:
+* [LogoHub](https://logohub.io/)
 
 ##### Favicons:
 * [favicon.io](https://favicon.io/favicon-generator/)

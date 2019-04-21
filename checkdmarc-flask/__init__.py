@@ -134,7 +134,6 @@ def create_app():
         # print(result)
         return jsonify(result), 200
 
-
     @app.route('/static/lookup_async_html/<path:path>')
     def serve_static(path):
         templates = [
@@ -147,7 +146,7 @@ def create_app():
             "result-nxdomain.html",
         ]
         if path in templates:
-            return render_template(path)
+            return render_template(path, render_test_links=True)
         return send_from_directory('static/lookup_async_html', path)
 
     @app.route('/favicon.ico')
