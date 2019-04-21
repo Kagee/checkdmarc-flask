@@ -51,6 +51,11 @@ def create_app():
                                 debug_data=debug_data
                               )
 
+    @app.route('/')
+    @app.route('/landing')
+    def landing():
+        return render_template('landing.html')
+
     @app.route('/lookup/async/<domain>')
     def lookup_async(domain):
         import redis
