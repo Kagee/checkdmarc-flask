@@ -47,3 +47,15 @@
   </li>
 </ul>
 </p>
+<p>
+    <h3>Debug info</h3>
+<table>
+    <tr><th>{{ _('Key') }}</th><th>{{ _('Value') }}</th></tr>
+    {% for key, value in debug_data.items() %}
+    <tr>
+        <td>{{ key }}</td>
+        <td>{{ value }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</p>

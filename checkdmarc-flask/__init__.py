@@ -3,6 +3,9 @@ from flask import jsonify
 from flask import render_template
 from flask import send_from_directory
 
+from flask_babel import Babel
+from flask import request, session
+
 # for reading environment variables and creating paths
 import os
 import signal
@@ -14,24 +17,38 @@ from datetime import datetime
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config/flask.cfg')
+
+    app.secret_key = 'TODO: replace super secret key'
+
     app.config['DEV'] = os.getenv('FLASK_ENV', 'production') == 'development'
+
+    babel = Babel(app)
+
     # We want human-readable JSON
     app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
     # WHY would you make escaping unicode the default? WHY?
     app.config['JSON_AS_ASCII'] = False
 
+    @babel.localeselector
+    def get_locale():
+        if request.args.get('lang'):
+            session['lang'] = request.args.get('lang')
+        if session.get('lang') in app.config['LANGUAGES'].keys():
+            return session.get('lang')
+        session.pop('lang', None)
+        return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
     @app.route('/backend-test', defaults={'path': ''})
     @app.route('/backend-test/<path:path>')
     def index(path):
         example_domains = app.config['EXAMPLE_DOMAINS']
         test_domains = app.config['TEST_DOMAINS']
-        debug_info = {"path": path}
+        debug_data = {"path": path, "locale": get_locale()}
         return render_template(
                                 'backend.html',
                                 example_domains=example_domains,
                                 test_domains=test_domains,
-                                debug_info=debug_info
+                                debug_data=debug_data
                               )
 
     @app.route('/lookup/async/<domain>')
