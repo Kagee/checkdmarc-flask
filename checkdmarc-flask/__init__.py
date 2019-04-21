@@ -20,14 +20,15 @@ def create_app():
     # WHY would you make escaping unicode the default? WHY?
     app.config['JSON_AS_ASCII'] = False
 
-    @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
+
+    @app.route('/backend-test', defaults={'path': ''})
+    @app.route('/backend-test/<path:path>')
     def index(path):
         example_domains = app.config['EXAMPLE_DOMAINS']
         test_domains = app.config['TEST_DOMAINS']
         debug_info = {"path": path}
         return render_template(
-                                'index.html',
+                                'backend.html',
                                 example_domains=example_domains,
                                 test_domains=test_domains,
                                 debug_info=debug_info
