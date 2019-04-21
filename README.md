@@ -1,11 +1,20 @@
 #### About:
 * TODO: Add about
 
-##### Logo:
-* [LogoHub](https://logohub.io/)
+##### Site boilerplate:
+ * [Skeleton](http://getskeleton.com/)
 
 ##### Favicons:
 * [favicon.io](https://favicon.io/favicon-generator/)
+
+##### Icons:
+ * [Font Awesome](https://fontawesome.com/)
+
+##### Logo:
+* [LogoHub](https://logohub.io/)
+
+##### Flag icons:
+* [http://flag-icon-css.lip.is/](http://flag-icon-css.lip.is/)
 
 ##### Learning resources:
 * [https://domainaware.github.io/checkdmarc/checkdmarc.html](https://domainaware.github.io/checkdmarc/checkdmarc.html)
