@@ -2,6 +2,11 @@
 # FLASK_APP=checkdmarc-flask FLASK_ENV=development REDIS_URL=redis://localhost/ flask run
 # We run in gunicorn so we can use signals
 
+if [ -z "$VIRTUAL_ENV" ]; then
+  2>&1 echo 'Not in virtualenv, activating...'
+  source ./venv/bin/activate
+fi
+
 (trap 'kill 0' SIGINT; REDIS_URL=redis://localhost/ python worker.py & \
 NAMESERVERS=$(cat /etc/resolv.conf | grep ^nameserver | cut -d ' ' -f 2 | paste -s -d,) \
   FLASK_APP=checkdmarc-flask \
