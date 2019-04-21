@@ -77,6 +77,15 @@
         <div class="six columns" style="">
             <img src="{{ url_for('static', filename='images/sjekk.email.png') }}" style="width: 100%">
         </div>
+
+            <div class="offset-by-four two columns" style="">
+                <p>
+                    <a href="{{ request.base_url }}?lang=no">
+                        <span class="flag-icon flag-icon-no"></span></a> <a href="{{ request.base_url }}?lang=no">NO</a> /
+                    <a href="{{ request.base_url }}?lang=en">
+                        <span class="flag-icon flag-icon-gb"></span></a> <a href="{{ request.base_url }}?lang=en">EN</a>
+                </p>
+            </div>
         </div>
         {% endif %}
         <hr/>
