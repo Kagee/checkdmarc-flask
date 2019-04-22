@@ -1,29 +1,9 @@
 {% include 'header.html' %}
-
-    <form action="result-nxdomain.html" method="get">
-        <div class="row">
-            <div class="offset-by-two four columns">
-                <input class="u-full-width" id="exampleEmailInput" name="domain" placeholder="sikkerserver.no"
-                       type="text" value="sikkerserver.no">
-
-            </div>
-            <div class="six columns">
-                <button class="button-primary" type="submit" style="font-size: 90%"><i class="fas fa-search"></i>&nbsp;Check domain</button>
-            </div>
-        </div>
-    </form>
-
     <div class="row">
-        <div class="one-half column">
-            <h4><i class="fas fa-question-circle"></i>&nbsp;DMARC</h4>
-            <label for="dmr">DMARC Record</label>
-            <pre class="dns-record-pre" id="dmr">An unspecified error occured when checking the DMARC record.</pre>
-        </div>
-        <div class="one-half column">
-            <h4><i class="fas fa-question-circle"></i>&nbsp;SPF</h4>
-            <label for="dmr">SPF Record</label>
-            <pre class="dns-record-pre" id="dmr">An unspecified error occured when checking the DMARC record.</pre>
+        <div class="u-full-width">
+            <h4><i class="fas fa-question-circle"></i>&nbsp;{{ _('An error occured') }}</h4>
+            <label for="dmr">{{ _('Reason') }}</label>
+            <p>{{ reason | safe }}</p>
         </div>
     </div>
-
 {% include 'footer.html' %}
