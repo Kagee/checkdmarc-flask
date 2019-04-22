@@ -11,7 +11,6 @@ Group=hildenae
 RuntimeDirectory=gunicorn
 WorkingDirectory=/home/hildenae/bin/checkdmarc-flask
 EnvironmentFile=/home/hildenae/bin/checkdmarc-flask/systemd/gunicorn.env
-ExecStart=/bin/bash -c 'source ./venv/bin/activate; exec gunicorn --workers $(echo "(2*$(nproc --all))+1" | bc) --reload --pid /run/gunicorn/pid --bind unix:/run/gunicorn/socket "checkdmarc-flask:create_app()"'
 ExecStart=/bin/bash -c 'source ./venv/bin/activate; exec gunicorn --workers $(echo "(2*$(nproc --all))+1" | bc) --reload --pid /run/gunicorn/pid --access-logfile - --bind unix:/run/gunicorn/socket "checkdmarc-flask:create_app()"'
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
