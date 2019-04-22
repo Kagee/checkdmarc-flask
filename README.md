@@ -23,3 +23,4 @@
 * [https://medium.com/@gitaumoses4/deploying-a-flask-application-on-heroku-e509e5c76524](https://medium.com/@gitaumoses4/deploying-a-flask-application-on-heroku-e509e5c76524)
 * [https://seanthegeek.net/459/demystifying-dmarc/](https://seanthegeek.net/459/demystifying-dmarc/)
 * [http://getskeleton.com/](http://getskeleton.com/)
+* [Implementing A Pure CSS Collapsible](https://alligator.io/css/collapsible/)
