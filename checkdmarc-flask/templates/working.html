@@ -1,23 +1,9 @@
 {% with %}
-  {% set extra_head = "<meta http-equiv=\"refresh\" content=\"5;url=https://sjekk.email/" ~ request.full_path ~ "\" />" %}
+  {% include 'header.html' %}
 {% endwith %}
-<!-- {{ request.full_path }} {{ request.path }} {{ request.url }} {{ request.full_path }} -->
-{% include 'header.html' %}
-    <form action="result-good.html" method="get">
-        <div class="row">
-            <div class="offset-by-two four columns">
-                <input class="u-full-width" id="exampleEmailInput" name="domain" placeholder="sikkerserver.no"
-                       type="text" value="sikkerserver.no">
-
-            </div>
-            <div class="six columns">
-                <button class="button-primary" type="submit" style="font-size: 90%"><i class="fas fa-spinner fa-spin"></i>&nbsp;Checking&nbsp;domain&nbsp;</button>
-            </div>
-        </div>
-    </form>
     <div class="row">
         <div class="u-full-width" style="text-align: center">
-            <h4><i class="fas fa-spinner fa-spin"></i>&nbsp;WORKING ... <div class="count-down"></div></h4>
+            <h4><i class="fas fa-spinner fa-spin"></i>&nbsp;{{ _('WORKING') }} ... <div class="countdown"></div></h4>
         </div>
     </div>
 
