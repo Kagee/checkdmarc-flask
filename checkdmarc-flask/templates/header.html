@@ -15,17 +15,15 @@
 
     <!-- FONT
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <!-- <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css"> -->
     <link href="{{ url_for('static', filename='raleway/raleway.css') }}" rel="stylesheet">
 
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link href="{{ url_for('static', filename='css/normalize.css') }}" rel="stylesheet">
-
     <link href="{{ url_for('static', filename='css/skeleton.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
-    <!--load font awesome css and font-->
     <link href="{{ url_for('static', filename='fontawesome-free/css/all.css') }}" rel="stylesheet">
+
     <!-- Favicon
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="icon" type="image/png">
@@ -34,10 +32,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ url_for('static', filename='images/site.webmanifest') }}">
 
-    <!-- Session-spesific tags
+    {% if extra_head %}<!-- Session-spesific tags
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     {{ extra_head | safe }}
-
+    {% endif %}
 </head>
 <body>
 
@@ -48,41 +46,21 @@
     <header>
         {% if render_test_links %}
         <div class="row" style="margin-top: 3%; text-align: center">
-
-            <div class="one columns" style="">
-                <p><a href="landing.html">landing</a></p>
-            </div>
-
-            <div class="one columns" style="">
-                <p><a href="working.html">working</a></p>
-            </div>
-
-            <div class="two columns" style="">
-                <p><a href="result-good.html">result-good</a></p>
-            </div>
-
-            <div class="two columns" style="">
-                <p><a href="result-warn.html">result-warn</a></p>
-            </div>
-
-            <div class="two columns" style="">
-                <p><a href="result-error.html">result-error</a></p>
-            </div>
-
-            <div class="two columns" style="">
-                <p><a href="result-fail.html">result-fail</a></p>
-            </div>
-            <div class="two columns" style="">
-                <p><a href="result-nxdomain.html">result-nxdomain</a></p>
-            </div>
+            <div class="one columns"><p><a href="landing.html">landing</a></p></div>
+            <div class="one columns"><p><a href="working.html">working</a></p></div>
+            <div class="two columns"><p><a href="result-good.html">result-good</a></p></div>
+            <div class="two columns"><p><a href="result-warn.html">result-warn</a></p></div>
+            <div class="two columns"><p><a href="result-error.html">result-error</a></p></div>
+            <div class="two columns"><p><a href="result-fail.html">result-fail</a></p></div>
+            <div class="two columns"><p><a href="result-nxdomain.html">result-nxdomain</a></p></div>
         </div>
         {% else %}
         <div class="row" style="margin-top: 3%; text-align: center">
-        <div class="six columns" style="">
+        <div class="six columns">
             <img src="{{ url_for('static', filename='images/sjekk.email.png') }}" style="width: 100%">
         </div>
 
-            <div class="offset-by-four two columns" style="">
+            <div class="offset-by-four two columns">
                 <p>
                     <a href="{{ request.base_url }}?lang=no">
                         <span class="flag-icon flag-icon-no"></span></a> <a href="{{ request.base_url }}?lang=no">NO</a> /
