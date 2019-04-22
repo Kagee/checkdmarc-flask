@@ -57,7 +57,7 @@
         {% else %}
         <div class="row" style="margin-top: 3%; text-align: center">
         <div class="six columns">
-            <img src="{{ url_for('static', filename='images/sjekk.email.png') }}" style="width: 100%">
+            <a href="{{ request.url_root }}"><img src="{{ url_for('static', filename='images/sjekk.email.png') }}" style="width: 100%"></a>
         </div>
 
             <div class="offset-by-four two columns">
