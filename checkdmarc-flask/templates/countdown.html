@@ -1,0 +1,17 @@
+{% macro make(name='changeLetter', length=30) -%}
+<style>
+@keyframes {{ name }}{{ length }}s { {% set hun = 100 / length %}{% for number in range(1, length +1) | reverse %}
+  {{ (hun * (length - number)) | string | truncate(5, True, '') }}% { content: "{{ number }}"; }{% endfor %}
+  99% { content: "0"; }
+  100% { content: ""; }
+}
+
+.{{ name }}::after {
+  animation-name: {{ name }}{{ length }}s;
+  animation-duration: {{ length }}s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-timing-function: linear;
+  content: "";
+}
+</style>{%- endmacro %}
