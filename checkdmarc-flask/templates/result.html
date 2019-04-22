@@ -1,0 +1,189 @@
+{% include 'header.html' %}
+{% set fail = '<i class="fas fa-times-circle" style="color: red"></i>' %}
+{% set warn = '<i class="fas fa-minus-circle" style="color: orange"></i>' %}
+{% set ok = '<i class="fas fa-check-circle" style="color: green"></i>' %}
+
+<div class="row">
+    <div class="u-full-width" style="text-align: center">
+        <h2>Results for <b>{{ result['domain'] }}</b></h2>
+    </div>
+</div>
+<div class="row">
+    <div class="one-half column">
+        <h4>
+            {% if result['dmarc']['valid'] and result['dmarc']['warnings'] | length == 0 %}
+            {{ ok | safe }}
+            {% elif result['dmarc']['valid'] and result['dmarc']['warnings'] | length > 0 %}
+            {{ warn | safe }}
+            {% else %}
+            {{ fail | safe }}
+            {% endif %}
+
+            &nbsp;DMARC</h4>
+        <label for="dmr">DMARC Record</label>
+        <pre class="dns-record-pre" id="dmr">{{ result['dmarc']['record'] }}</pre>
+
+        <div class="row">
+            <div class="offset-by-one eleven columns">
+                <!-- DMARC data-->
+                {% if 'error' in result['dmarc'] %}
+                <table class="u-full-width">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Errors</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><i class="fas fa-times-circle" style="color: red; font-size: 200%"></td>
+                        <td>{{ result['dmarc']['error'] }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                {% endif %}
+                {% if result['dmarc']['warnings'] | length > 0 %}
+                <table class="u-full-width">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Warnings</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for warning in result['dmarc']['warnings'] %}
+                    <tr>
+                        <td><i class="fas fa-minus-circle" style="color: orange; font-size: 200%"></td>
+                        <td>{{ warning }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <div class="one-half column">
+        <h4>
+            {% if result['spf']['valid'] and result['spf']['warnings'] | length == 0 %}
+            {{ ok | safe }}
+            {% elif result['spf']['valid'] and result['spf']['warnings'] | length >= 0 %}
+            {{ warn | safe }}
+            {% else %}
+            {{ fail | safe }}
+            {% endif %}
+            &nbsp;SPF</h4>
+        <label for="dmr">SPF Record</label>
+        <pre class="dns-record-pre" id="dmr">{{ result['spf']['record'] }}</pre>
+                <div class="row">
+            <div class="offset-by-one eleven columns">
+                <!-- DMARC data-->
+                {% if 'error' in result['spf'] %}
+                <table class="u-full-width">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Errors</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><i class="fas fa-times-circle" style="color: red; font-size: 200%"></td>
+                        <td>{{ result['spf']['error'] }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                {% endif %}
+                {% if result['spf']['warnings'] | length > 0 %}
+                <table class="u-full-width">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Warnings</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for warning in result['spf']['warnings'] %}
+                    <tr>
+                        <td><i class="fas fa-minus-circle" style="color: orange; font-size: 200%"></td>
+                        <td>{{ warning }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- {{ job_id }} -->
+<style>
+
+.wrap-collabsible {
+  margin-bottom: 0;
+}
+
+input[type='checkbox'] {
+  display: none;
+}
+
+.lbl-toggle {
+  display: block;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 1rem;
+  color: #FFFFFF;
+  background: #33C3F0;
+  border-color: #33C3F0;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+.lbl-toggle:hover {
+  color: #FFF;
+  background-color: #1EAEDB;
+  border-color: #1EAEDB;
+}
+
+.lbl-toggle::before {
+  font-family: 'Font Awesome 5 Free';
+  content: "\f13a";
+  margin-right: .7rem;
+}
+
+.collapsible-content {
+  max-height: 0px;
+  overflow: hidden;
+}
+
+.toggle:checked + .lbl-toggle + .collapsible-content {
+  max-height: 100%;
+}
+
+.toggle:checked + .lbl-toggle {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+
+</style>
+<div class="row">
+    <div class="u-full-width">
+        <hr>
+        <div class="wrap-collabsible">
+            <input class="toggle" id="collapsible" type="checkbox">
+            <label class="lbl-toggle" for="collapsible">Show raw JSON</label>
+            <div class="collapsible-content">
+                <div class="content-inner">
+                    <pre><code>{{ result | tojson(indent=2) }}</code></pre>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% include 'footer.html' %}

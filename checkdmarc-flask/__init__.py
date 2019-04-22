@@ -4,12 +4,11 @@ from flask import render_template
 from flask import send_from_directory
 
 from flask_babel import Babel
-from flask import request, session
+from flask import request, session, redirect, url_for
 
 # for reading environment variables and creating paths
 import os
-import signal
-
+from uuid import uuid4
 from .utils import full_check, force_iso_tz, TimedOutExc
 from datetime import datetime
 
@@ -18,6 +17,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config/flask.cfg')
 
+    # We are currently only saving lang in session
     app.secret_key = 'TODO: replace super secret key'
 
     app.config['DEV'] = os.getenv('FLASK_ENV', 'production') == 'development'
@@ -54,29 +54,93 @@ def create_app():
     @app.route('/')
     @app.route('/landing')
     def landing():
-        return render_template('landing.html')
+        return render_template('landing.html', queue_url=url_for('queue'))
+
+    @app.route('/queue')
+    def queue():
+        domain = request.args.get('domain')
+        if not domain:
+            return redirect(url_for('landing'))
+        job_id = lookup_async(domain, json=False)
+        return redirect(url_for('lookup', job_id=job_id))
+
+    @app.route('/lookup')
+    def lookup():
+        job_id = request.args.get('job_id')
+        # total = request.args.get('total_time')
+        if not job_id:
+            return redirect(url_for('landing'))
+        finished, failed, job = return_job(job_id)
+        # print(failed)
+        if failed:
+            # print(dir(result))
+            reason = 'Unknown. <br /><br />Please send an e-mail to ' \
+                     '<a href="mailto:hildenae+sjekk,email@gmail.com">hildenae+sjekk,email@gmail.com</a> ' \
+                     'and with reference ' + job_id
+            if "rq.timeouts.JobTimeoutException" in job.exc_info:
+                reason = "The lookup timed out. This may be a problem with very slow DNS servers."\
+                         "<br /><br />Reference: " + job_id
+            return render_template('result-fail.html', reason=reason, job_id=job_id)
+        if finished:
+            return redirect(url_for('result', job_id=job_id))
+        return render_template('working.html', reload=5, status=job.get_status())
+
+    @app.route('/result')
+    def result():
+        job_id = request.args.get('job_id')
+        if not job_id:
+            return redirect(url_for('landing'))
+        _, _, job = return_job(job_id)
+        return render_template('result.html', job_id=job_id, result=job.result)
 
     @app.route('/lookup/async/<domain>')
-    def lookup_async(domain):
+    def lookup_async(domain, json=True):
         import redis
         from rq import Queue
 
         r = redis.from_url(os.environ.get("REDIS_URL"))
         q = Queue('lookups', connection=r)
+        job_id = str(uuid4())
         # TODO: Could we use Job.requeue if job has been run before?
-        result = q.enqueue(full_check, domain,
-                           job_id=domain,
-                           result_ttl=300,  # keep results for 5 minutes (300s)
-                           failure_ttl=300,   # delete failed jobs
-                           ttl=60,          # discard job if not started within 1 min (60s)
-                           job_timeout=30   # fail job if it takes more than 30s
-                           )
-        job_id = result.key.decode("utf-8")
-        return jsonify({
+        job = q.enqueue(full_check, domain,
+                        job_id=job_id,
+                        result_ttl=60*60*24*7,   # keep results for 7 days
+                        failure_ttl=60*60*24*7,  # delete failed jobs after 30 minutes
+                        ttl=120,                 # discard job if not started within 1 min (60s)
+                        job_timeout=60           # fail job if it takes more than 30s
+                        )
+        job_key = job.key.decode("utf-8")
+        if json:
+            return jsonify({
                         "enqueued": domain,
                         "job_id": job_id,
+                        "job_key": job_key,
                         "url": '/lookup/job/' + job_id
                         }), 200
+        else:
+            return job_id
+
+    def return_job(job_id):
+        import redis
+        from rq.job import Job
+
+        r = redis.from_url(os.environ.get("REDIS_URL"))
+        if job_id.startswith("rq:job:"):
+            job_id = job_id[7:]
+        job = Job.fetch(job_id, connection=r)
+        if job.is_failed:
+            registry = job.failed_job_registry
+            print(dir(registry))
+
+            return False, job.is_failed, job
+        if not job.is_finished:
+            return False, job.is_failed, job
+        job.result['_lookup_data'] = \
+            {
+                'started_at': force_iso_tz(job.started_at),
+                'ended_at': force_iso_tz(job.ended_at)
+            }
+        return job, False, job
 
     @app.route('/lookup/job/<job_id>')
     def lookup_job(job_id):
@@ -107,9 +171,9 @@ def create_app():
                         "status": job.get_status()
                         }), 200
 
-    @app.route('/lookup/<domain>')
-    @app.route('/lookup/', defaults={"domain": None})
-    def lookup(domain):
+    @app.route('/lookup/json/<domain>')
+    @app.route('/lookup/json/', defaults={"domain": None})
+    def lookup_json(domain):
         if not domain or "." not in domain:
             return jsonify({
                             "error": "MissingOrInvalidDomain",
@@ -117,22 +181,22 @@ def create_app():
                             }), 400
         started_at = datetime.utcnow()
 
-        result = None
+        # result = None
         try:
-            result = full_check(domain, timeout=25)
+            job = full_check(domain, timeout=25)
         except TimedOutExc as toe:
             return jsonify({
                             "error": "TimedOutExc",
                             "msg": str(toe),
                             }), 500
         ended_at = datetime.utcnow()
-        result['_lookup_data'] = \
+        job['_lookup_data'] = \
             {
                 'started_at': utils.force_iso_tz(started_at),
                 'ended_at': force_iso_tz(ended_at)
             }
         # print(result)
-        return jsonify(result), 200
+        return jsonify(job), 200
 
     # @app.route('/static/lookup_async_html/<path:path>')
     # def serve_static(path):
