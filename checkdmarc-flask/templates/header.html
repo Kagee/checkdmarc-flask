@@ -36,6 +36,14 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     {{ extra_head | safe }}
     {% endif %}
+
+    {% if reload %}<!-- Reload code
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    {% import 'countdown.html' as countdown %}
+    {{ countdown.make("countdown", reload) }}
+    <meta http-equiv="refresh" content="{{ reload }};url={{ request.url }}" />
+    {% endif %}
+
 </head>
 <body>
 
