@@ -24,3 +24,6 @@
 * [https://seanthegeek.net/459/demystifying-dmarc/](https://seanthegeek.net/459/demystifying-dmarc/)
 * [http://getskeleton.com/](http://getskeleton.com/)
 * [Implementing A Pure CSS Collapsible](https://alligator.io/css/collapsible/)
+
+##### Other SPF/DMARC verification services
+* [https://www.kitterman.com/spf/validate.html](https://www.kitterman.com/spf/validate.html)
