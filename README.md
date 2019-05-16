@@ -27,3 +27,4 @@
 
 ##### Other SPF/DMARC verification services
 * [https://www.kitterman.com/spf/validate.html](https://www.kitterman.com/spf/validate.html)
+* [https://mxtoolbox.com/SuperTool.aspx](https://mxtoolbox.com/SuperTool.aspx)
